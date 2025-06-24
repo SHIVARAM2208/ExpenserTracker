@@ -10,6 +10,9 @@
   "engines": {
     "node": ">=18"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "mongoose": "^7.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "bcrypt": "^5.1.0"
+  }
 }
