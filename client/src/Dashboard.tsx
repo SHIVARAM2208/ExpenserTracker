@@ -1,14 +1,14 @@
 import { motion } from 'framer-motion';
-// import type { Expense, ExpenseCategory } from '../utils/mockData';
 import type { Expense, ExpenseCategory } from '../types';
+import { categoryIcons, categoryColors } from '../utils/categoryIcons';
+import { Link } from 'react-router-dom';
+
 interface CategoryStats {
     category: ExpenseCategory;
     total: number;
     count: number;
     percentage: number;
 }
-import { categoryIcons, categoryColors } from '../utils/categoryIcons';
-import { Link } from 'react-router-dom';
 
 interface DashboardProps {
     expenses: Expense[];
@@ -159,9 +159,9 @@ const Dashboard = ({ expenses }: DashboardProps) => {
                                 </div>
                                 <div className="w-full bg-primary-800 rounded-full h-2">
                                     <motion.div
-                                        className={h-2 rounded-full bg-gradient-to-r ${categoryColors[stat.category]}}
+                                        className={`h-2 rounded-full bg-gradient-to-r ${categoryColors[stat.category]}`}
                                         initial={{ width: 0 }}
-                                        animate={{ width: ${stat.percentage}% }}
+                                        animate={{ width: `${stat.percentage}%` }}
                                         transition={{ duration: 1, delay: 0.5 }}
                                     />
                                 </div>
@@ -186,7 +186,7 @@ const Dashboard = ({ expenses }: DashboardProps) => {
                                 className="flex items-center justify-between p-4 bg-primary-800/50 rounded-lg"
                             >
                                 <div className="flex items-center space-x-3">
-                                    <div className={w-8 h-8 rounded-full bg-gradient-to-r ${categoryColors[category.category]} flex items-center justify-center text-white font-bold}>
+                                    <div className={`w-8 h-8 rounded-full bg-gradient-to-r ${categoryColors[category.category]} flex items-center justify-center text-white font-bold`}>
                                         {index + 1}
                                     </div>
                                     <div className="flex items-center space-x-2">
@@ -223,4 +223,4 @@ const Dashboard = ({ expenses }: DashboardProps) => {
     );
 };
 
-export default Dashboard; 
+export default Dashboard;
