@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { Expense, ExpenseCategory } from '../types'; // Assuming you moved types here
-
+import type { Expense, ExpenseCategory } from '../types';
+import { categoryIcons, categoryColors } from '../utils/categoryIcons';
+import { Link } from 'react-router-dom';
 
 interface ExpenseFilters {
     category?: ExpenseCategory;
@@ -11,8 +12,6 @@ interface ExpenseFilters {
     sortBy?: 'date' | 'amount' | 'title';
     sortOrder?: 'asc' | 'desc';
 }
-import { categoryIcons, categoryColors } from '../utils/categoryIcons';
-import { Link } from 'react-router-dom';
 
 interface AllExpensesProps {
     expenses: Expense[];
@@ -32,6 +31,20 @@ const AllExpenses = ({ expenses, onUpdateExpense, onDeleteExpense }: AllExpenses
 
     const [editingId, setEditingId] = useState<string | null>(null);
     const [editForm, setEditForm] = useState<Partial<Expense>>({});
+
+    // Handlers for editing
+    const handleSaveEdit = () => {
+        if (editingId) {
+            onUpdateExpense(editingId, editForm);
+            setEditingId(null);
+            setEditForm({});
+        }
+    };
+
+    const handleCancelEdit = () => {
+        setEditingId(null);
+        setEditForm({});
+    };
 
     // Filter and sort expenses
     const filteredExpenses = useMemo(() => {
@@ -75,7 +88,6 @@ const AllExpenses = ({ expenses, onUpdateExpense, onDeleteExpense }: AllExpenses
     }, [expenses, filters]);
 
     const totalAmount = filteredExpenses.reduce((sum, expense) => sum + expense.amount, 0);
-
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -324,7 +336,7 @@ const AllExpenses = ({ expenses, onUpdateExpense, onDeleteExpense }: AllExpenses
                                     // View Mode
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center space-x-4">
-                                            <div className={w-12 h-12 rounded-lg bg-gradient-to-r ${categoryColors[expense.category]} flex items-center justify-center}>
+                                            <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${categoryColors[expense.category]} flex items-center justify-center`}>
                                                 <span className="text-white text-xl">{categoryIcons[expense.category]}</span>
                                             </div>
                                             <div>
@@ -346,8 +358,27 @@ const AllExpenses = ({ expenses, onUpdateExpense, onDeleteExpense }: AllExpenses
                                                     ₹{expense.amount.toLocaleString()}
                                                 </p>
                                             </div>
-
-                                            {}
+                                            <button
+                                                onClick={() => {
+                                                    setEditingId(expense.id);
+                                                    setEditForm({
+                                                        title: expense.title,
+                                                        amount: expense.amount,
+                                                        category: expense.category,
+                                                        date: expense.date,
+                                                        notes: expense.notes || ''
+                                                    });
+                                                }}
+                                                className="btn-secondary px-3 py-1 text-sm"
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                onClick={() => onDeleteExpense(expense.id)}
+                                                className="btn-danger px-3 py-1 text-sm"
+                                            >
+                                                Delete
+                                            </button>
                                         </div>
                                     </div>
                                 )}
