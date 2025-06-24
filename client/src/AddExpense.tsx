@@ -143,3 +143,5 @@ const AddExpense: React.FC<AddExpenseProps> = ({ onAddExpense }) => {
     </motion.div>
   );
 };
+
+export default AddExpense;
