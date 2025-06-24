@@ -2,12 +2,12 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { useState, useEffect } from 'react';
 import type { Expense } from './types';
 
-import Navbar from './components/Navbar';
-import Dashboard from './pages/Dashboard';
-import AddExpense from './pages/AddExpense';
-import AllExpenses from './pages/AllExpenses';
-import Login from './pages/login';
-import Register from './pages/Register';
+import Navbar from './Navbar';
+import Dashboard from './Dashboard';
+import AddExpense from './AddExpense';
+import AllExpenses from './AllExpenses';
+import Login from './login';
+import Register from './Register';
 
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
